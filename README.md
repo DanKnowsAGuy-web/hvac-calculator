@@ -6,9 +6,14 @@ Meant to live as its own repo and also embed as a popup on the commercial landin
 
 ## What this is
 
+- `index.html` — **the finished, assembled calculator.** Your approved card layout, running on
+  the real `compute()` engine (harmonizer, cooling, heating, demand, motor, lighting, rate
+  negotiation, power factor), with the "Change your assumptions" accordion and the 179D slider.
+  Parity-checked against the original: office/California/$300k returns $87,000-$144,000 in both.
+  This is the file GitHub Pages should serve.
 - `original-engine.html` — a verbatim, byte-for-byte clone of the original calculator
-  (`commercial-landing/public/calculator.html`). This is the untouched engine we build on.
-  Verified identical at clone time (4,803 lines).
+  (`commercial-landing/public/calculator.html`). This is the untouched pristine reference the
+  assembly was built and checked against. Not meant to be shown to users; kept for parity checks.
 - The re-skin changes **presentation only**: markup, CSS, the order questions are asked, and
   which on-screen element shows which result. The calculation engine (`compute()`), every
   constant, every preset, and every state table are left exactly as they are.
