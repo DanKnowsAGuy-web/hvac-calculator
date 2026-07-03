@@ -655,23 +655,26 @@ function buildIllustration(eqItems,inflated){
   const heatLabel={gas:"gas heat",heatpump:"heat pump",resistance:"electric resistance",dontknow:"electric heat (assumed)"};
 
   // facility engine table (share/harmo/coolmin/sqftRate/annual min-max) — real values
+  // Ordered by HVAC share of the total bill, highest first (ties keep their
+  // original relative order): cold storage and refrigeration lean hardest on
+  // HVAC, data centers and industrial the least.
   const FAC=[
-    {k:"office",n:"Office",share:0.40,harmo:0.09,coolmin:0,sq:2.80,min:24000,max:4000000},
-    {k:"hotel",n:"Hotel",share:0.45,harmo:0.08,coolmin:0,sq:3.50,min:60000,max:5000000},
-    {k:"health",n:"Healthcare",share:0.45,harmo:0.12,coolmin:0,sq:4.50,min:120000,max:12000000},
     {k:"cold",n:"Cold storage",share:0.70,harmo:0.13,coolmin:98,sq:3.20,min:50000,max:5000000},
     {k:"super",n:"Supermarket",share:0.55,harmo:0.09,coolmin:95,sq:8.00,min:60000,max:2500000},
-    {k:"retail",n:"Retail",share:0.40,harmo:0.09,coolmin:0,sq:2.60,min:24000,max:3000000},
-    {k:"qsr",n:"Restaurant",share:0.40,harmo:0.09,coolmin:85,sq:5.50,min:12000,max:300000},
+    {k:"hotel",n:"Hotel",share:0.45,harmo:0.08,coolmin:0,sq:3.50,min:60000,max:5000000},
+    {k:"health",n:"Healthcare",share:0.45,harmo:0.12,coolmin:0,sq:4.50,min:120000,max:12000000},
     {k:"cstore",n:"Convenience",share:0.45,harmo:0.09,coolmin:85,sq:10.00,min:15000,max:250000},
-    {k:"whse",n:"Warehouse",share:0.20,harmo:0.09,coolmin:0,sq:1.00,min:24000,max:2000000},
     {k:"multi",n:"Multifamily",share:0.45,harmo:0.08,coolmin:0,sq:1.40,min:24000,max:3000000},
     {k:"edu",n:"Education",share:0.45,harmo:0.09,coolmin:0,sq:2.50,min:24000,max:15000000},
     {k:"fitness",n:"Fitness / Gym",share:0.45,harmo:0.13,coolmin:0,sq:3.20,min:24000,max:600000},
-    {k:"ind",n:"Industrial",share:0.15,harmo:0.13,coolmin:0,sq:4.50,min:50000,max:20000000},
-    {k:"datactr",n:"Data center",share:0.10,harmo:0.18,coolmin:0,sq:2.50,min:200000,max:50000000},
+    {k:"office",n:"Office",share:0.40,harmo:0.09,coolmin:0,sq:2.80,min:24000,max:4000000},
+    {k:"retail",n:"Retail",share:0.40,harmo:0.09,coolmin:0,sq:2.60,min:24000,max:3000000},
+    {k:"qsr",n:"Restaurant",share:0.40,harmo:0.09,coolmin:85,sq:5.50,min:12000,max:300000},
+    {k:"mixed",n:"Mixed / Other",share:0.35,harmo:0.08,coolmin:0,sq:2.00,min:24000,max:4000000},
     {k:"research",n:"Research / Lab",share:0.30,harmo:0.14,coolmin:0,sq:2.50,min:100000,max:20000000},
-    {k:"mixed",n:"Mixed / Other",share:0.35,harmo:0.08,coolmin:0,sq:2.00,min:24000,max:4000000}
+    {k:"whse",n:"Warehouse",share:0.20,harmo:0.09,coolmin:0,sq:1.00,min:24000,max:2000000},
+    {k:"ind",n:"Industrial",share:0.15,harmo:0.13,coolmin:0,sq:4.50,min:50000,max:20000000},
+    {k:"datactr",n:"Data center",share:0.10,harmo:0.18,coolmin:0,sq:2.50,min:200000,max:50000000}
   ];
   const HEATOPTS=[["gas","Natural gas"],["heatpump","Heat pump"],["resistance","Electric resistance"],["dontknow","I'm not sure"]];
   const COUNTS=[["one","Just one",1],["few","2–5",3],["several","6–20",10],["many","20+",25]];
