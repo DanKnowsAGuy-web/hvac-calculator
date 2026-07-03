@@ -44,7 +44,7 @@
   .refine{margin-top:.9rem}.refine .lbl{font-family:var(--mono);font-size:.68rem;color:var(--muted);margin-bottom:.5rem}
   .band-reset{background:none;border:none;color:var(--muted);font-family:var(--mono);font-size:.72rem;cursor:pointer;margin-top:.6rem;padding:0}.band-reset:hover{color:var(--body)}
   .btn{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--sans);font-weight:600;font-size:1rem;padding:.85rem 1.5rem;border-radius:999px;border:1px solid transparent;background:var(--ink);color:var(--bg);cursor:pointer;text-decoration:none;transition:transform .2s,background .2s}
-  .btn:hover{transform:translateY(-2px)}.btn--teal{background:var(--teal-deep);color:#fff}.btn[disabled]{opacity:.4;cursor:not-allowed;transform:none}
+  .btn:hover{transform:translateY(-2px)}.btn--teal{background:var(--teal-deep);color:#fff}.btn--ghost{background:transparent;color:var(--teal);border-color:var(--line2)}.btn--ghost:hover{border-color:var(--teal)}.btn[disabled]{opacity:.4;cursor:not-allowed;transform:none}
   .actions{margin-top:2rem;display:flex;gap:.8rem;flex-wrap:wrap;align-items:center}
   .back{background:none;border:none;color:var(--muted);font-family:var(--mono);font-size:.75rem;cursor:pointer;padding:.4rem 0}.back:hover{color:var(--body)}
   .assump{font-family:var(--mono);font-size:.72rem;color:var(--muted);margin:0 0 1.5rem}
@@ -270,7 +270,12 @@
         <div class="ded-out"><div class="d"><div class="dtag">Deduction</div><div class="dval" id="ded-d">$0</div></div><div class="d"><div class="dtag">Worth in tax (~21%)</div><div class="dval" id="ded-t">$0</div></div></div>
       </div>
 
-      <div class="hidden-box">
+      <div class="actions mid-cta" style="margin-top:1.4rem;display:flex;gap:.7rem;flex-wrap:wrap">
+        <a class="btn btn--teal" id="book-link-mid" href="https://cal.com/dan-knows-a-gut/15min" target="_blank" rel="noopener">Book your 22-minute review →</a>
+        <button class="btn btn--ghost" id="see-more-btn" type="button">See the full hidden cost →</button>
+      </div>
+
+      <div class="hidden-box" id="hidden-box">
         <p class="hidden-lead" id="hidden-lead"></p>
         <p class="hidden-p" id="reveal-copy"></p>
         <div class="hidden-top"><b>Wasted power today</b><span class="v" id="v-dp">$0</span><span style="font-family:var(--mono);font-size:.66rem;color:var(--muted)">/yr</span></div>
@@ -792,13 +797,14 @@ function buildIllustration(eqItems,inflated){
       "Est. annual savings/facility: "+RNG(sub[0],sub[1])+" visible, plus "+fmt(r.harmo)+" dirty-power",
       "HVAC portion: "+RNG(hvF,hvC),"Facilities: "+st.count,
       "179D est: "+est.toLocaleString("en-US")+" sq ft (up to "+fmt(ded)+")","Program fit: "+fit].join("\n");}
-  function updateBookLink(){const a=$("book-link");if(!a||!st.fac)return;a.href="https://cal.com/dan-knows-a-gut/15min?notes="+encodeURIComponent(bookingNotes());}
+  function updateBookLink(){if(!st.fac)return;const href="https://cal.com/dan-knows-a-gut/15min?notes="+encodeURIComponent(bookingNotes());const a=$("book-link");if(a)a.href=href;const am=$("book-link-mid");if(am)am.href=href;}
 
   // ---- nav ----
   const screens=[...document.querySelectorAll(".screen")];
-  function show(n){screens.forEach(s=>s.classList.toggle("active",+s.dataset.s===n));dots.forEach((d,i)=>d.classList.toggle("on",i<n));window.scrollTo({top:0,behavior:"smooth"});
-    if(n===3)paintNumber();if(n===4)paintCosts();if(n===5)updateBookLink();}
+  function show(n){if(n>=3&&!(st.fac&&st.spend>0&&st.heat!=null)){n=2;}screens.forEach(s=>s.classList.toggle("active",+s.dataset.s===n));dots.forEach((d,i)=>d.classList.toggle("on",i<n));window.scrollTo({top:0,behavior:"smooth"});
+    if(n===3){paintNumber();updateBookLink();}if(n===4)paintCosts();if(n===5)updateBookLink();}
   document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>show(+b.dataset.go));
+  const _seeMore=$("see-more-btn");if(_seeMore)_seeMore.onclick=()=>document.getElementById("hidden-box").scrollIntoView({behavior:"smooth",block:"start"});
   document.querySelectorAll("[data-back]").forEach(b=>b.onclick=()=>show(+b.dataset.back));
 })();
 </script>
